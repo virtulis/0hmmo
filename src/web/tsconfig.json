@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"module": "esnext",
+		"target": "esnext",
+		"sourceMap": true,
+		"strict": true,
+		"moduleResolution": "node",
+		"rootDir": "../",
+		"outDir": "../../out/client-modules",
+		"jsx": "react",
+		"jsxFactory": "ujsx",
+		"allowSyntheticDefaultImports": true
+	},
+	"include": [
+		"./**/*.ts",
+		"./**/*.tsx"
+	]
+}

@@ -1,0 +1,8 @@
+.idea/
+
+node_modules/
+out/
+config.js
+cache/
+dev/watch/impl.js*
+dev/watch/watch.js*

@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "esnext",
+		"sourceMap": true,
+		"strict": true,
+		"moduleResolution": "node",
+		"rootDir": "../",
+		"outDir": "../../out/server",
+		"jsx": "react",
+		"jsxFactory": "ujsx",
+		"allowSyntheticDefaultImports": true
+	},
+	"include": [
+		"./**/*.ts",
+		"./**/*.tsx",
+		"../common/**/*.ts",
+		"../common/**/*.tsx"
+	]
+}
