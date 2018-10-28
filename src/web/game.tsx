@@ -7,7 +7,7 @@ console.warn('Who dis');
 const players = new Map<string, Player>();
 const balls = new Map<string, Ball>();
 
-const ws = new WebSocket('ws://' + location.host);
+const ws = new WebSocket('ws' + location.protocol.substr(4) + '//' + location.host);
 
 const ballId = (ball: Ball) => ball.x + ',' + ball.y;
 
