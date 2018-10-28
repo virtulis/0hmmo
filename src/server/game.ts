@@ -1,3 +1,5 @@
+import { startGameServer } from './lib/gameserver';
+
 (require('source-map-support') as any).install();
 
 import * as http from 'http';
@@ -17,13 +19,14 @@ const realpath = promisify(_realpath);
 
 process.chdir(resolve(__dirname, '../../..'));
 
-const outDir = 'out/website';
+const outDir = 'out/client';
 
 async function maybeServe(fn: string, res: http.ServerResponse) {
 
-	const rfn = await realpath(resolve(fn));
+	const rod = await realpath(outDir);
+	const rfn = await realpath(resolve(outDir, fn));
 	if (
-		(rfn.substr(0, outDir.length + 1) != outDir + '/')
+		(rfn.substr(0, rod.length + 1) != rod + '/')
 		|| (!await exists(rfn))
 		|| (await stat(rfn)).isDirectory()
 	) return false;
@@ -44,7 +47,7 @@ const httpd = http.createServer(async (request, response) => {
 
 		const parsed = parseUrl(request.url || '/');
 
-		if (parsed.pathname) {
+		if (parsed.pathname == '/') {
 			response.statusCode = 200;
 			response.setHeader('Content-Type', 'text/html; charset=utf-8');
 			response.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -54,7 +57,7 @@ const httpd = http.createServer(async (request, response) => {
 
 		const trurl = (parsed.pathname || '/').replace(/\.\.+/g, '.').replace(/\/+$/, '').replace(/![0-9a-f]+(\.\w+)$/, '$1');
 
-		if (trurl && await maybeServe(trurl, response)) return;
+		if (trurl && await maybeServe(trurl.substr('/client/'.length), response)) return;
 
 		response.statusCode = 404;
 		response.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -63,6 +66,8 @@ const httpd = http.createServer(async (request, response) => {
 	}
 	catch (e) {
 
+		console.log(e.stack);
+
 		response.statusCode = 500;
 		response.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 		response.end('What!!');
@@ -70,5 +75,7 @@ const httpd = http.createServer(async (request, response) => {
 	}
 
 });
+
+startGameServer(httpd);
 
 httpd.listen(config.gamePort, config.host);

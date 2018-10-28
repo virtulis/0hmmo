@@ -1,10 +1,9 @@
 const webpack = require('webpack');
 
 module.exports = (env, argv) => ({
-	entry: './out/client-modules/web/client.js',
+	entry: './out/client-modules/web/game.js',
 	output: {
-		filename: 'client.js',
-		chunkFilename: '[name].client.js',
+		filename: 'game.js',
 		publicPath: '/client/',
 		path: process.cwd() + '/out/client'
 	},
